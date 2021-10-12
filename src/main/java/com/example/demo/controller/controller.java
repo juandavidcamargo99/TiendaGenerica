@@ -18,6 +18,11 @@ public class controller {
 		return "index";
 	}
 	
+	@GetMapping("/login")
+	public String login() {
+		return "login";
+	}
+	
 	@GetMapping("/listar-clientes")
 	public String listarClientes(Model model) {
 		ClienteDao Dao=new ClienteDao();
