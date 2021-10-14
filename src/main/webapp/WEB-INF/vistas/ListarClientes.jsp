@@ -1,6 +1,12 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%
+	HttpSession sesion = request.getSession();
+	if (sesion.getAttribute("login") == null || sesion.getAttribute("login").equals("0")){
+		response.sendRedirect("login");
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,5 +32,9 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	
+	<form action="/logout" method="POST">
+		<input type="submit" name="Logout" value="Logout"/>
+	</form>
 </body>
 </html>
