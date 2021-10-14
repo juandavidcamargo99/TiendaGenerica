@@ -8,7 +8,6 @@
 </head>
 <body>
 	<h1>Bienvenidos a la tienda generica</h1>
-	<a href="/TiendaVirtualApp/ListarClientes.jsp">Consultar clientes</a>
-<!-- 	<a href="/TiendaVirtualApp/ConsultaProveedores.jsp">Consultar proveedores</a> -->
+	<a href="/login">Login</a>
 </body>
 </html>
