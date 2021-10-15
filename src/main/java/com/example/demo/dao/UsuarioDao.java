@@ -5,38 +5,35 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
-import com.example.demo.dao.Conexion;
 
 import javax.swing.JOptionPane;
 
 import com.example.demo.dto.Usuario;
 
-public class ClienteDao {
+public class UsuarioDao {
 
 	private Connection conexion;
 
 	/**
-	 * permite consultar la lista de Clientes
+	 * permite loguear a un usuario en el sistema
 	 * 
-	 * @return ArrayList<Usuario>
+	 * @return boolean
 	 */
-	public ArrayList<Usuario> listaDeClientes() {
-		ArrayList<Usuario> usuario = new ArrayList<Usuario>();
+	public boolean login(String name, String password) {
 		conexion = Conexion.conectar();
 		if (Conexion.AutoCommit(conexion)) {
 			try {
-				PreparedStatement consulta = conexion.prepareStatement("SELECT * FROM cliente");
+				String sql = "SELECT * FROM usuario WHERE name = ? AND password = ?";
+				PreparedStatement consulta = conexion.prepareStatement(sql);
+				consulta.setString(1, name);
+				consulta.setString(2, password);
 				ResultSet res = consulta.executeQuery();
-				while (res.next()) {
-					Usuario persona = new Usuario();
-					persona.setId(Integer.parseInt(res.getString("id")));
-					persona.setName(res.getString("name"));
-					persona.setLastName(res.getString("lastName"));
-
-					usuario.add(persona);
+				if (res.next()) {
+					return true;
 				}
 				res.close();
 				consulta.close();
+
 				Conexion.commit(conexion);
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, "no se pudo consultar la Persona\n" + e);
@@ -45,7 +42,7 @@ public class ClienteDao {
 				Conexion.cerrar(conexion);
 			}
 		}
-		return usuario;
+		return false;
 	}
 
 }
