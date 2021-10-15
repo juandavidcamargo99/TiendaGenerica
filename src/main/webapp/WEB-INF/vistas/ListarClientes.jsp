@@ -20,14 +20,18 @@
 				<th>Identidad</th>
 				<th>Nombre</th>
 				<th>Apellido</th>
+				<th></th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody id="myTable">
 			<c:forEach items="${clientes}" var="cliente">
 				<tr>
 					<td>${cliente.id}</td>
-					<td>${cliente.nombre}</td>
-					<td>${cliente.apellido}</td>
+					<td>${cliente.name}</td>
+					<td>${cliente.lastName}</td>
+					<td><a href="/actualizar-cliente/${cliente.id}">Actualizar</a></td>
+					<td><a href="/eliminar-cliente/${cliente.id}">Eliminar</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>
