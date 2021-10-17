@@ -9,7 +9,7 @@ import com.example.demo.dao.Conexion;
 
 import javax.swing.JOptionPane;
 
-import com.example.demo.dto.Usuario;
+import com.example.demo.dto.Cliente;
 
 public class ClienteDao {
 
@@ -18,34 +18,34 @@ public class ClienteDao {
 	/**
 	 * permite consultar la lista de Clientes
 	 * 
-	 * @return ArrayList<Usuario>
+	 * @return ArrayList<Cliente>
 	 */
-	public ArrayList<Usuario> listaDeClientes() {
-		ArrayList<Usuario> usuario = new ArrayList<Usuario>();
+	public ArrayList<Cliente> listaDeClientes() {
+		ArrayList<Cliente> cliente = new ArrayList<Cliente>();
 		conexion = Conexion.conectar();
 		if (Conexion.AutoCommit(conexion)) {
 			try {
 				PreparedStatement consulta = conexion.prepareStatement("SELECT * FROM cliente");
 				ResultSet res = consulta.executeQuery();
 				while (res.next()) {
-					Usuario persona = new Usuario();
+					Cliente persona = new Cliente();
 					persona.setId(Integer.parseInt(res.getString("id")));
 					persona.setName(res.getString("name"));
 					persona.setLastName(res.getString("lastName"));
 
-					usuario.add(persona);
+					cliente.add(persona);
 				}
 				res.close();
 				consulta.close();
 				Conexion.commit(conexion);
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "no se pudo consultar la Persona\n" + e);
+				System.out.print(e.getMessage());
 				Conexion.rollback(conexion);
 			} finally {
 				Conexion.cerrar(conexion);
 			}
 		}
-		return usuario;
+		return cliente;
 	}
 
 }
