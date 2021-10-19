@@ -103,6 +103,37 @@ public class UsuarioDao {
 	}
 	
 	/**
+	 * retorna el usuario buscado por id
+	 */
+	public ArrayList<Usuario> buscarUsuarioPorId(Integer id) {
+		ArrayList<Usuario> usuario = new ArrayList<Usuario>();
+		conexion = Conexion.conectar();
+		if (Conexion.AutoCommit(conexion)) {
+			try {
+				PreparedStatement consulta = conexion.prepareStatement("SELECT * FROM usuario WHERE id = ?");
+				consulta.setInt(1, id);
+				ResultSet res = consulta.executeQuery();
+				while (res.next()) {
+					Usuario persona = new Usuario();
+					persona.setName(res.getString("name"));
+					persona.setLastName(res.getString("lastName"));
+					persona.setAccount(res.getString("accountName"));
+					usuario.add(persona);
+				}
+				res.close();
+				consulta.close();
+				Conexion.commit(conexion);
+			} catch (Exception e) {
+				System.out.print(e.getMessage());
+				Conexion.rollback(conexion);
+			} finally {
+				Conexion.cerrar(conexion);
+			}
+		}
+		return usuario;
+	}
+	
+	/**
 	 * 	permite listar usuarios
 	 */
 	public ArrayList<Usuario> listarUsuarios() {
@@ -132,4 +163,44 @@ public class UsuarioDao {
 		}
 		return usuario;
 	}
+	
+	/**
+	 * Permite actualizar un usuario
+	 */
+	public Boolean actualizarUsuario(String name, String lastName, String accountName, String password) {
+		Boolean result = false;
+		String sql = "";
+		conexion = Conexion.conectar();
+		if (Conexion.AutoCommit(conexion)) {
+			try {
+				if (password.isEmpty()) {
+					sql = "UPDATE usuario SET name = ?, lastName = ?, accountName = ?";
+					PreparedStatement consulta = conexion.prepareStatement(sql);
+					consulta.setString(1, name);
+					consulta.setString(2, lastName);
+					consulta.setString(3, accountName);
+					consulta.executeUpdate();
+					consulta.close();
+				} else {
+					sql = "UPDATE usuario SET name = ?, lastName = ?, accountName = ?, password = ?";
+					PreparedStatement consulta = conexion.prepareStatement(sql);
+					consulta.setString(1, name);
+					consulta.setString(2, lastName);
+					consulta.setString(3, accountName);
+					consulta.setString(4, password);
+					consulta.executeUpdate();
+					consulta.close();
+				}
+				result = true;
+				Conexion.commit(conexion);
+			} catch (Exception e) {
+				System.out.print(e.getMessage());
+				Conexion.rollback(conexion);
+			} finally {
+				Conexion.cerrar(conexion);
+			}
+		}
+		return result;
+	}
+	
 }
