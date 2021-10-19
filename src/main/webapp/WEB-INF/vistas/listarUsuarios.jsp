@@ -4,7 +4,9 @@
 <%
 	HttpSession sesion = request.getSession();
 	if (sesion.getAttribute("login") == null || sesion.getAttribute("login").equals("0")){
-		response.sendRedirect("login");
+			String url = request.getRequestURL().toString();
+		String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
+		response.sendRedirect(baseURL + "/login");
 	}
 %>
 <!DOCTYPE html>
