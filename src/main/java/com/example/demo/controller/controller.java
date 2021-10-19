@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.core.ExceptionDepthComparator;
@@ -10,13 +11,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.dao.UsuarioDao;
 import com.example.demo.dao.ClienteDao;
 import com.example.demo.dto.Cliente;
+import com.example.demo.dto.Usuario;
 
 @Controller
 public class controller {
@@ -25,6 +29,10 @@ public class controller {
 	public String index() {
 		return "index";
 	}
+
+	/*************
+	 * LOGIN Y LOGOUT
+	 *************/
 
 	@GetMapping("/login")
 	public String login() {
@@ -52,6 +60,10 @@ public class controller {
 		session.removeAttribute("login");
 		return new ModelAndView("redirect:/login");
 	}
+
+	/*************
+	 * USUARIOS
+	 *************/
 
 	@GetMapping("/crear-usuario")
 	public String crearUsuario(Model model) {
@@ -86,8 +98,39 @@ public class controller {
 		return "listarUsuarios";
 	}
 
+	@GetMapping("/actualizar-usuario/{id}")
+	public String ActualizarUsuario(Model model, @PathVariable Integer id, HttpServletResponse res) {
+		UsuarioDao Dao = new UsuarioDao();
+		ArrayList<Usuario> user = new ArrayList<Usuario>();
+		user = Dao.buscarUsuarioPorId(id);
+		if (user.isEmpty()) {
+			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return null;
+		} else {
+			model.addAttribute("usuario", user.get(0));		
+		}
+		return "actualizarUsuario";
+	}
+
+	@PostMapping("/actualizar-usuario")
+	public String ActualizarUsuarioPut(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+		UsuarioDao Dao = new UsuarioDao();
+		String name = request.getParameter("name");
+		String lastName = request.getParameter("lastname");
+		String accountName = request.getParameter("accountName");
+		String password = request.getParameter("password");
+		if(Dao.actualizarUsuario(name, lastName, accountName, password)) {
+			redirectAttributes.addFlashAttribute("msg", "Usuario actualizado con exito");	
+		}
+		return "redirect:/listar-usuarios";
+	}
+
+	/*************
+	 * CLIENTES
+	 *************/
+
 	@GetMapping("/listar-clientes")
-	public String listarClientes(Model model) {
+	public String listarClientes(HttpServletRequest request, Model model) {
 		ClienteDao Dao = new ClienteDao();
 		model.addAttribute("clientes", Dao.listaDeClientes());
 		return "ListarClientes";
