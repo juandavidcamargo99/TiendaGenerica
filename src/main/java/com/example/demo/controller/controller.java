@@ -129,11 +129,23 @@ public class controller {
 	@PostMapping("/eliminar-usuario")
 	public String eliminarUsuario(@RequestParam Integer id, RedirectAttributes redirectAttributes) {
 		UsuarioDao Dao = new UsuarioDao();
-		System.out.print(id);
 		if(Dao.eliminarUsuario(id)) {
 			redirectAttributes.addFlashAttribute("msg", "Usuario eliminado con exito");
 		}else {
 			redirectAttributes.addFlashAttribute("msg", "Nose ha podido eliminar el usuario");
+		}
+		return "redirect:/listar-usuarios";
+	}
+	
+	@PostMapping("/usuario-por-cedula")
+	public String buscarUsuarioPorCedula(@RequestParam String cardId, RedirectAttributes redirectAttributes) {
+		UsuarioDao Dao = new UsuarioDao();
+		ArrayList<Usuario> user = new ArrayList<Usuario>();
+		user = Dao.buscarPorCedula(cardId);
+		if(user.isEmpty()) {
+			redirectAttributes.addFlashAttribute("msg", "Nose ha podido encontrar el ususario");
+		}else {
+			redirectAttributes.addFlashAttribute("usuariosPorCedula", user);
 		}
 		return "redirect:/listar-usuarios";
 	}
