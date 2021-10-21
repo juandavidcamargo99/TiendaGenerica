@@ -6,6 +6,7 @@ public class Usuario {
 	private String name;
 	private String lastName;
 	private String account;
+	private String cardId;
 	private String password;
 	
 	public Integer getId() {
@@ -31,6 +32,12 @@ public class Usuario {
 	}
 	public void setAccount(String account) {
 		this.account = account;
+	}
+	public String getCardId() {
+		return cardId;
+	}
+	public void setCardId(String cardId) {
+		this.cardId = cardId;
 	}
 	public String getPassword() {
 		return password;

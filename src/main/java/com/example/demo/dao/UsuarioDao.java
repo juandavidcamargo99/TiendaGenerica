@@ -134,6 +134,38 @@ public class UsuarioDao {
 	}
 	
 	/**
+	 * Retorna el usuario por cedula
+	 */
+	public ArrayList<Usuario> buscarPorCedula(String cardId) {
+		ArrayList<Usuario> usuario = new ArrayList<Usuario>();
+		conexion = Conexion.conectar();
+		if (Conexion.AutoCommit(conexion)) {
+			try {
+				PreparedStatement consulta = conexion.prepareStatement("SELECT * FROM usuario WHERE cardId = ?");
+				consulta.setString(1, cardId);
+				ResultSet res = consulta.executeQuery();
+				while (res.next()) {
+					Usuario persona = new Usuario();
+					persona.setId(Integer.parseInt(res.getString("id")));
+					persona.setName(res.getString("name"));
+					persona.setLastName(res.getString("lastName"));
+
+					usuario.add(persona);
+				}
+				res.close();
+				consulta.close();
+				Conexion.commit(conexion);
+			} catch (Exception e) {
+				System.out.print(e.getMessage());
+				Conexion.rollback(conexion);
+			} finally {
+				Conexion.cerrar(conexion);
+			}
+		}
+		return usuario;
+	}
+	
+	/**
 	 * 	permite listar usuarios
 	 */
 	public ArrayList<Usuario> listarUsuarios() {
