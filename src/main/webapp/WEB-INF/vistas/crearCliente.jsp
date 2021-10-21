@@ -13,22 +13,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Crear Usuario</title>
+<title>Crear Clientes</title>
 </head>
 <body>
-	<h2>Create Users</h2>
+	<h2>Crear Clientes</h2>
 
-	<form method="POST" action="/crear-usuario">
+	<form method="POST" action="/crear-cliente">
 		<label>Username</label><br>
 		<input type="text" name="name" value="ejemplo"/><br>
 		<label>Last name</label><br>
 		<input type="text" name="lastname" value="ejemplo"/><br>
-		<label>Account name</label><br>
-		<input type="text" name="accountName" value="ejemplo"/><br>
 		<label>Cedula</label><br>
 		<input type="text" name="cardId" value="123456"/><br>
-		<label>Password</label><br>
-		<input type="text" name="password" value="ejemplo"/><br>
 		<p>${error}</p> 
 		<input type="submit" name="enviar"/>
 	</form>
