@@ -67,7 +67,7 @@
 					<td>${usuarioPorCedula.id}</td>
 					<td>${usuarioPorCedula.name}</td>
 					<td>${usuarioPorCedula.lastName}</td>
-					<td>${usuario.cardId}</td>
+					<td>${usuarioPorCedula.cardId}</td>
 					<td><a href="/actualizar-usuario/${usuarioPorCedula.id}">Actualizar</a></td>
 					<td><form action="/eliminar-usuario" method="POST"><button type="submit" name="id" value="${usuarioPorCedula.id}" >Eliminar</button></form></td>
 				</tr>

@@ -16,6 +16,7 @@
 <title>Listar clientes</title>
 </head>
 <body>
+	<h2>Listar clientes</h2>
 	<table id="tabla">
 		<thead>
 			<tr>
@@ -38,7 +39,36 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	
+	<h2>Buscar por cedula</h2>
+	<form action="/cliente-por-cedula" method="POST">
+		<lable>Cedula</lable>
+		<input name="cardId" type="text">
+		<input type="submit" value="Buscar">
+	</form>
+	<table>
+		<thead>
+			<tr>
+				<th>Identidad</th>
+				<th>Nombre</th>
+				<th>Apellido</th>
+				<th>Cedula</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${clientesPorCedula}" var="clientePorCedula">
+				<tr>
+					<td>${clientePorCedula.id}</td>
+					<td>${clientePorCedula.name}</td>
+					<td>${clientePorCedula.lastName}</td>
+					<td>${clientePorCedula.cardId}</td>
+					<td><a href="/actualizar-cliente/${clientePorCedula.id}">Actualizar</a></td>
+					<td><form action="/eliminar-cliente" method="POST"><button type="submit" name="id" value="${clientePorCedula.id}" >Eliminar</button></form></td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
 	<form action="/logout" method="POST">
 		<input type="submit" name="Logout" value="Logout"/>
 	</form>
