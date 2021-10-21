@@ -50,7 +50,7 @@ public class ClienteDao {
 	}
 	
 	/**
-	 * Retorna el usuario por cedula
+	 * Retorna el clientes por cedula
 	 */
 	public ArrayList<Usuario> buscarPorCedula(String cardId) {
 		ArrayList<Usuario> usuario = new ArrayList<Usuario>();
@@ -65,7 +65,7 @@ public class ClienteDao {
 					persona.setId(Integer.parseInt(res.getString("id")));
 					persona.setName(res.getString("name"));
 					persona.setLastName(res.getString("lastName"));
-
+					persona.setCardId(res.getString("cardId"));
 					usuario.add(persona);
 				}
 				res.close();

@@ -187,4 +187,17 @@ public class controller {
 		}
 		return "redirect:/listar-clientes";
 	}
+	
+	@PostMapping("/cliente-por-cedula")
+	public String buscarClientePorCedula(@RequestParam String cardId, RedirectAttributes redirectAttributes) {
+		ClienteDao Dao = new ClienteDao();
+		ArrayList<Usuario> user = new ArrayList<Usuario>();
+		user = Dao.buscarPorCedula(cardId);
+		if(user.isEmpty()) {
+			redirectAttributes.addFlashAttribute("msg", "Nose ha podido encontrar el ususario");
+		}else {
+			redirectAttributes.addFlashAttribute("clientesPorCedula", user);
+		}
+		return "redirect:/listar-clientes";
+	}
 }
