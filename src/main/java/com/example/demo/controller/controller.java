@@ -76,6 +76,7 @@ public class controller {
 		String name = request.getParameter("name");
 		String lastName = request.getParameter("lastname");
 		String accountName = request.getParameter("accountName");
+		String cardId = request.getParameter("cardId");
 		String password = request.getParameter("password");
 		UsuarioDao Dao = new UsuarioDao();
 		// buscar usuario por accountName
@@ -83,7 +84,7 @@ public class controller {
 			redirectAttributes.addFlashAttribute("msg", "El usuario ya se encuentra registrado");
 		} else {
 			// crear usuario si no existe
-			if (Dao.crearUsuario(name, lastName, accountName, password)) {
+			if (Dao.crearUsuario(name, lastName, accountName, cardId, password)) {
 				redirectAttributes.addFlashAttribute("msg", "Usuario creado con exito");
 			} else {
 				redirectAttributes.addFlashAttribute("msg", "Usuario creado con exito");
@@ -160,5 +161,30 @@ public class controller {
 		ClienteDao Dao = new ClienteDao();
 		model.addAttribute("clientes", Dao.listaDeClientes());
 		return "ListarClientes";
+	}
+	
+	@GetMapping("/crear-cliente")
+	public String crearClientes(Model model) {
+		return "crearCliente";
+	}
+
+	@PostMapping("/crear-cliente")
+	public String crearClientePost(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+		String name = request.getParameter("name");
+		String lastName = request.getParameter("lastname");
+		String cardId = request.getParameter("cardId");
+		ClienteDao Dao = new ClienteDao();
+		// buscar cliente por accountName
+		if (Dao.buscarPorCedula(cardId).isEmpty()) {
+			// crear cliente si no existe
+			if (Dao.crearCliente(name, lastName, cardId)) {
+				redirectAttributes.addFlashAttribute("msg", "Clietne creado con exito");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "Clietne creado con exito");
+			}
+		} else {
+			redirectAttributes.addFlashAttribute("msg", "El cliente ya se encuentra registrado");
+		}
+		return "redirect:/listar-clientes";
 	}
 }
