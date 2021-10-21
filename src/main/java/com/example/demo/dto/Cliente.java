@@ -5,6 +5,7 @@ public class Cliente {
 	private Integer id;
 	private String name;
 	private String lastName;
+	private String cardId;
 	
 	public Integer getId() {
 		return id;
@@ -23,6 +24,12 @@ public class Cliente {
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	public String getCardId() {
+		return cardId;
+	}
+	public void setCardId(String cardId) {
+		this.cardId = cardId;
 	}
 
 }

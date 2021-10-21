@@ -50,16 +50,17 @@ public class UsuarioDao {
 	 * 
 	 * @return String
 	 */
-	public Boolean crearUsuario(String name, String lastName, String accountName, String password) {
+	public Boolean crearUsuario(String name, String lastName, String accountName, String cardId, String password) {
 		conexion = Conexion.conectar();
 		if (Conexion.AutoCommit(conexion)) {
 			try {
-				String sql = "INSERT INTO usuario (name, lastName, accountName,  password) VALUES (?,?,?,?)";
+				String sql = "INSERT INTO usuario (name, lastName, accountName, cardId, password) VALUES (?,?,?,?,?)";
 				PreparedStatement consulta = conexion.prepareStatement(sql);
 				consulta.setString(1, name);
 				consulta.setString(2, lastName);
 				consulta.setString(3, accountName);
-				consulta.setString(4, password);
+				consulta.setString(4, cardId);
+				consulta.setString(5, password);
 				consulta.executeUpdate();
 				consulta.close();
 				Conexion.commit(conexion);
