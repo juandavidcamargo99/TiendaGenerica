@@ -116,6 +116,7 @@ public class UsuarioDao {
 				ResultSet res = consulta.executeQuery();
 				while (res.next()) {
 					Usuario persona = new Usuario();
+					persona.setId(id);
 					persona.setName(res.getString("name"));
 					persona.setLastName(res.getString("lastName"));
 					persona.setAccount(res.getString("accountName"));
@@ -200,22 +201,23 @@ public class UsuarioDao {
 	/**
 	 * Permite actualizar un usuario
 	 */
-	public Boolean actualizarUsuario(String name, String lastName, String accountName, String password) {
+	public Boolean actualizarUsuario(Integer id, String name, String lastName, String accountName, String password) {
 		Boolean result = false;
 		String sql = "";
 		conexion = Conexion.conectar();
 		if (Conexion.AutoCommit(conexion)) {
 			try {
 				if (password.isEmpty()) {
-					sql = "UPDATE usuario SET name = ?, lastName = ?, accountName = ?";
+					sql = "UPDATE usuario SET name = ?, lastName = ?, accountName = ? WHERE id = ?";
 					PreparedStatement consulta = conexion.prepareStatement(sql);
 					consulta.setString(1, name);
 					consulta.setString(2, lastName);
 					consulta.setString(3, accountName);
+					consulta.setInt(4, id);
 					consulta.executeUpdate();
 					consulta.close();
 				} else {
-					sql = "UPDATE usuario SET name = ?, lastName = ?, accountName = ?, password = ?";
+					sql = "UPDATE usuario SET name = ?, lastName = ?, accountName = ?, password = ? WHERE id = ?";
 					PreparedStatement consulta = conexion.prepareStatement(sql);
 					consulta.setString(1, name);
 					consulta.setString(2, lastName);
