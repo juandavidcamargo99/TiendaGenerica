@@ -117,11 +117,12 @@ public class controller {
 	@PostMapping("/actualizar-usuario")
 	public String ActualizarUsuarioPut(HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		UsuarioDao Dao = new UsuarioDao();
+		Integer id =  Integer.parseInt(request.getParameter("id"));
 		String name = request.getParameter("name");
 		String lastName = request.getParameter("lastname");
 		String accountName = request.getParameter("accountName");
 		String password = request.getParameter("password");
-		if(Dao.actualizarUsuario(name, lastName, accountName, password)) {
+		if(Dao.actualizarUsuario(id, name, lastName, accountName, password)) {
 			redirectAttributes.addFlashAttribute("msg", "Usuario actualizado con exito");	
 		}
 		return "redirect:/listar-usuarios";
@@ -189,14 +190,40 @@ public class controller {
 	}
 	
 	@PostMapping("/cliente-por-cedula")
-	public String buscarClientePorCedula(@RequestParam String cardId, RedirectAttributes redirectAttributes) {
+	public String buscarClientePorCedula(@RequestParam Integer cardId, RedirectAttributes redirectAttributes) {
 		ClienteDao Dao = new ClienteDao();
-		ArrayList<Usuario> user = new ArrayList<Usuario>();
-		user = Dao.buscarPorCedula(cardId);
-		if(user.isEmpty()) {
+		ArrayList<Cliente> cliente  = new ArrayList<Cliente>();
+		cliente = Dao.buscarClientePorId(cardId);
+		if(cliente.isEmpty()) {
 			redirectAttributes.addFlashAttribute("msg", "Nose ha podido encontrar el ususario");
 		}else {
-			redirectAttributes.addFlashAttribute("clientesPorCedula", user);
+			redirectAttributes.addFlashAttribute("clientesPorCedula", cliente);
+		}
+		return "redirect:/listar-clientes";
+	}
+	
+	@GetMapping("/actualizar-cliente/{id}")
+	public String ActualizarCliente(Model model, @PathVariable Integer id, HttpServletResponse res) {
+		ClienteDao Dao = new ClienteDao();
+		ArrayList<Cliente> cliente = new ArrayList<Cliente>();
+		cliente = Dao.buscarClientePorId(id);
+		if (cliente.isEmpty()) {
+			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return null;
+		} else {
+			model.addAttribute("cliente", cliente.get(0));		
+		}
+		return "actualizarCliente";
+	}
+
+	@PostMapping("/actualizar-cliente")
+	public String ActualizarClientePut(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+		ClienteDao Dao = new ClienteDao();
+		Integer id =  Integer.parseInt(request.getParameter("id"));
+		String name = request.getParameter("name");
+		String lastName = request.getParameter("lastname");
+		if(Dao.actualizarCliente(id, name, lastName)) {
+			redirectAttributes.addFlashAttribute("msg", "Usuario actualizado con exito");	
 		}
 		return "redirect:/listar-clientes";
 	}

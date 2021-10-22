@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<center>
 	<h2>Login Page</h2>
 
 	<form method="POST" action="/login" modelAttribute="user">
@@ -18,5 +19,6 @@
 		<p>${error}</p> 
 		<input type="submit" name="submit"/>
 	</form>
+</center>
 </body>
 </html>
