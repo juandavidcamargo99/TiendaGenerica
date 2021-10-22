@@ -10,7 +10,6 @@ import com.example.demo.dao.Conexion;
 import javax.swing.JOptionPane;
 
 import com.example.demo.dto.Cliente;
-import com.example.demo.dto.Usuario;
 
 public class ClienteDao {
 
@@ -50,23 +49,23 @@ public class ClienteDao {
 	}
 	
 	/**
-	 * Retorna el clientes por cedula
+	 * retorna el cliente buscado por id
 	 */
-	public ArrayList<Usuario> buscarPorCedula(String cardId) {
-		ArrayList<Usuario> usuario = new ArrayList<Usuario>();
+	public ArrayList<Cliente> buscarClientePorId(Integer id) {
+		ArrayList<Cliente> cliente = new ArrayList<Cliente>();
 		conexion = Conexion.conectar();
 		if (Conexion.AutoCommit(conexion)) {
 			try {
-				PreparedStatement consulta = conexion.prepareStatement("SELECT * FROM cliente WHERE cardId = ?");
-				consulta.setString(1, cardId);
+				PreparedStatement consulta = conexion.prepareStatement("SELECT * FROM cliente WHERE id = ?");
+				consulta.setInt(1, id);
 				ResultSet res = consulta.executeQuery();
 				while (res.next()) {
-					Usuario persona = new Usuario();
-					persona.setId(Integer.parseInt(res.getString("id")));
+					Cliente persona = new Cliente();
+					persona.setId(res.getInt("id"));
 					persona.setName(res.getString("name"));
 					persona.setLastName(res.getString("lastName"));
 					persona.setCardId(res.getString("cardId"));
-					usuario.add(persona);
+					cliente.add(persona);
 				}
 				res.close();
 				consulta.close();
@@ -78,7 +77,40 @@ public class ClienteDao {
 				Conexion.cerrar(conexion);
 			}
 		}
-		return usuario;
+		return cliente;
+	}
+	
+	
+	/**
+	 * Retorna el clientes por cedula
+	 */
+	public ArrayList<Cliente> buscarPorCedula(String cardId) {
+		ArrayList<Cliente> cliente = new ArrayList<Cliente>();
+		conexion = Conexion.conectar();
+		if (Conexion.AutoCommit(conexion)) {
+			try {
+				PreparedStatement consulta = conexion.prepareStatement("SELECT * FROM cliente WHERE cardId = ?");
+				consulta.setString(1, cardId);
+				ResultSet res = consulta.executeQuery();
+				while (res.next()) {
+					Cliente persona = new Cliente();
+					persona.setId(Integer.parseInt(res.getString("id")));
+					persona.setName(res.getString("name"));
+					persona.setLastName(res.getString("lastName"));
+					persona.setCardId(res.getString("cardId"));
+					cliente.add(persona);
+				}
+				res.close();
+				consulta.close();
+				Conexion.commit(conexion);
+			} catch (Exception e) {
+				System.out.print(e.getMessage());
+				Conexion.rollback(conexion);
+			} finally {
+				Conexion.cerrar(conexion);
+			}
+		}
+		return cliente;
 	}
 
 	/**
@@ -108,6 +140,35 @@ public class ClienteDao {
 		}
 		return false;
 
+	}
+	
+	
+	/**
+	 * Permite actualizar un cliente
+	 */
+	public Boolean actualizarCliente(Integer id, String name, String lastName) {
+		Boolean result = false;
+		String sql = "";
+		conexion = Conexion.conectar();
+		if (Conexion.AutoCommit(conexion)) {
+			try {
+				sql = "UPDATE cliente SET name = ?, lastName = ? WHERE id = ?";
+				PreparedStatement consulta = conexion.prepareStatement(sql);
+				consulta.setString(1, name);
+				consulta.setString(2, lastName);
+				consulta.setInt(3, id);
+				consulta.executeUpdate();
+				consulta.close();
+				result = true;
+				Conexion.commit(conexion);
+			} catch (Exception e) {
+				System.out.print(e.getMessage());
+				Conexion.rollback(conexion);
+			} finally {
+				Conexion.cerrar(conexion);
+			}
+		}
+		return result;
 	}
 
 }

@@ -14,20 +14,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Update user</title>
+<title>Actualizar cliente</title>
 </head>
 <body>
-	<h2>Update user</h2>
-	<form method="POST" action="/actualizar-usuario">
+	<h2>Actualizar cliente</h2>
+	<form method="POST" action="/actualizar-cliente">
 		<label>Username</label><br>
-		<input type="number" name="id" value="${usuario.id}" hidden>
-		<input type="text" name="name" value="${usuario.name}"/><br>
+		<input type="number" name="id" value="${cliente.id}" hidden>
+		<input type="text" name="name" value="${cliente.name}"/><br>
 		<label>Last name</label><br>
-		<input type="text" name="lastname" value="${usuario.lastName}"/><br>
-		<label>Account name</label><br>
-		<input type="text" name="accountName" value="${usuario.account}"/><br>
-		<label>Password</label><br>
-		<input type="text" name="password" value=""/><br>
+		<input type="text" name="lastname" value="${cliente.lastName}"/><br>
+		<label>Cedula</label><br>
+		<input type="text" value="${cliente.cardId}" readonly/><br>
 		<p>${error}</p> 
 		<input type="submit" name="Actualizar"/>
 	</form>
