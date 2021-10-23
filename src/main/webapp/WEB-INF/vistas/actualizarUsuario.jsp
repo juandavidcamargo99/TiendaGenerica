@@ -17,6 +17,7 @@
 <title>Update user</title>
 </head>
 <body>
+	<jsp:include page="menuPrincipal.jsp" />
 	<h2>Update user</h2>
 	<form method="POST" action="/actualizar-usuario">
 		<label>Username</label><br>

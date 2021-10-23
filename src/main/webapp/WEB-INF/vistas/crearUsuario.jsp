@@ -16,6 +16,7 @@
 <title>Crear Usuario</title>
 </head>
 <body>
+	<jsp:include page="menuPrincipal.jsp" />
 	<h2>Create Users</h2>
 
 	<form method="POST" action="/crear-usuario">
