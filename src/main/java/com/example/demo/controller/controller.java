@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.dao.UsuarioDao;
 import com.example.demo.dao.ClienteDao;
+import com.example.demo.dao.ProveedorDao;
 import com.example.demo.dto.Cliente;
 import com.example.demo.dto.Usuario;
 
@@ -237,5 +238,16 @@ public class controller {
 			redirectAttributes.addFlashAttribute("msg", "No se ha podido eliminar el cliente");
 		}
 		return "redirect:/listar-clientes";
+	}
+	
+	/*************
+	 * PROVEEDORES
+	 *************/
+	
+	@GetMapping("/listar-proveedores")
+	public String listarProveedores(HttpServletRequest request, Model model) {
+		ProveedorDao Dao = new ProveedorDao();
+		model.addAttribute("proveedores", Dao.listaDeProveedores());
+		return "ListarProveedores";
 	}
 }
