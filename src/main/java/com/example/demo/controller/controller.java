@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.dao.UsuarioDao;
 import com.example.demo.dao.ClienteDao;
+import com.example.demo.dao.ProductoDao;
 import com.example.demo.dao.ProveedorDao;
 import com.example.demo.dto.Cliente;
 import com.example.demo.dto.Proveedor;
@@ -327,4 +328,31 @@ public class controller {
 		}
 		return "redirect:/listar-proveedores";
 	}
+	
+	/*****
+	 * PRODUCTO
+	 *****/
+	
+	@GetMapping("/listar-productos")
+	public String listarProductos(HttpServletRequest request, Model model) {
+		ProductoDao Dao = new ProductoDao();
+		model.addAttribute("productos", Dao.listaDeProductos());
+		return "listarProductos";
+	}
+	
+	@PostMapping("/cargar-productos")
+	public String listarproductosPost(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+		String id = request.getParameter("code");
+		String name = request.getParameter("name");
+		String nit = request.getParameter("nit");
+//		ProductoDao Dao = new ProductoDao();
+//		if (Dao.listaDeProductos(id)) {
+//			redirectAttributes.addFlashAttribute("msg", "Archivo Cargado Exitosamente");
+//		} else {
+//			redirectAttributes.addFlashAttribute("msg", "Error no se selecciono archivo para cargar");
+//		}
+		return "redirect:/listar-productos";
+		
+	}
+
 }
