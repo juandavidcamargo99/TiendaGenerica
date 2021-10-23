@@ -34,7 +34,7 @@
 					<td>${cliente.name}</td>
 					<td>${cliente.lastName}</td>
 					<td><a href="/actualizar-cliente/${cliente.id}">Actualizar</a></td>
-					<td><form action="/eliminar-cliente" method="POST"><button type="submit" name="id" value="${cliente.id}" >Eliminar</button></form></td>
+					<td><a href="/eliminar-cliente/${cliente.id}">Eliminar</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>

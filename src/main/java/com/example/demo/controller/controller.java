@@ -227,4 +227,15 @@ public class controller {
 		}
 		return "redirect:/listar-clientes";
 	}
+	
+	@PostMapping("/eliminar-cliente")
+	public String eliminarCLiente(@RequestParam Integer id, RedirectAttributes redirectAttributes) {
+		ClienteDao Dao = new ClienteDao();
+		if(Dao.eliminarCliente(id)) {
+			redirectAttributes.addFlashAttribute("msg", "Cliente eliminado con exito");
+		}else {
+			redirectAttributes.addFlashAttribute("msg", "No se ha podido eliminar el cliente");
+		}
+		return "redirect:/listar-clientes";
+	}
 }
