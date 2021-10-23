@@ -22,6 +22,7 @@ import com.example.demo.dao.UsuarioDao;
 import com.example.demo.dao.ClienteDao;
 import com.example.demo.dao.ProveedorDao;
 import com.example.demo.dto.Cliente;
+import com.example.demo.dto.Proveedor;
 import com.example.demo.dto.Usuario;
 
 @Controller
@@ -272,6 +273,33 @@ public class controller {
 			}
 		} else {
 			redirectAttributes.addFlashAttribute("msg", "El Proveedor ya se encuentra registrado");
+		}
+		return "redirect:/listar-proveedores";
+	}
+	
+	@GetMapping("/actualizar-proveedor/{id}")
+	public String ActualizarProveedor(Model model, @PathVariable Integer id, HttpServletResponse res) {
+		ProveedorDao Dao = new ProveedorDao();
+		ArrayList<Proveedor> proveedor = new ArrayList<Proveedor>();
+		proveedor = Dao.buscarProvedorPorId(id);
+		if (proveedor.isEmpty()) {
+			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return null;
+		} else {
+			model.addAttribute("proveedor", proveedor.get(0));		
+		}
+		return "actualizarProveedor";
+	}
+	
+	@PostMapping("/actualizar-proveedor")
+	public String ActualizarProveedorPut(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+		ProveedorDao Dao = new ProveedorDao();
+		Integer id =  Integer.parseInt(request.getParameter("id"));
+		String name = request.getParameter("name");
+		String address = request.getParameter("address");
+		String cardId = request.getParameter("cardId");
+		if(Dao.actualizarProveedor(id, name, address, cardId)) {
+			redirectAttributes.addFlashAttribute("msg", "Usuario actualizado con exito");	
 		}
 		return "redirect:/listar-proveedores";
 	}
