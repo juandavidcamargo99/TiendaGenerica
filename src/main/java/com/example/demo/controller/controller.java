@@ -304,6 +304,19 @@ public class controller {
 		return "redirect:/listar-proveedores";
 	}
 	
+	@PostMapping("/proveedor-por-nit")
+	public String buscarProveedorPorCedula(@RequestParam String cardId, RedirectAttributes redirectAttributes) {
+		ProveedorDao Dao = new ProveedorDao();
+		ArrayList<Proveedor> proveedor  = new ArrayList<Proveedor>();
+		proveedor = Dao.buscarPorNIT(cardId);
+		if(proveedor.isEmpty()) {
+			redirectAttributes.addFlashAttribute("msg", "Nose ha podido encontrar el ususario");
+		}else {
+			redirectAttributes.addFlashAttribute("proveedoresPorNit", proveedor);
+		}
+		return "redirect:/listar-proveedores";
+	}
+	
 	@PostMapping("/eliminar-proveedor")
 	public String eliminarProveedor(@RequestParam Integer id, RedirectAttributes redirectAttributes) {
 		ProveedorDao Dao = new ProveedorDao();
