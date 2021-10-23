@@ -354,5 +354,15 @@ public class controller {
 		return "redirect:/listar-productos";
 		
 	}
+	
+	/*********
+	 * VENTAS
+	 *********/
+	@GetMapping("/listar-ventas")
+	public String listarVentas(HttpServletRequest request, Model model) {
+//		ProductoDao Dao = new ProductoDao();
+//		model.addAttribute("productos", Dao.listaDeProductos());
+		return "listarVentas";
+	}
 
 }
