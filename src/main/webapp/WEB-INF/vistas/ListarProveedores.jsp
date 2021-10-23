@@ -44,7 +44,7 @@ if (sesion.getAttribute("login") == null || sesion.getAttribute("login").equals(
 			</tbody>
 		</table>
 		<h2>Buscar por NIT</h2>
-		<form action="/proveedor-por-NIT" method="POST">
+		<form action="/proveedor-por-nit" method="POST">
 			<lable>NIT</lable>
 			<input name="cardId" type="text"> <input type="submit"
 				value="Buscar">
@@ -61,7 +61,7 @@ if (sesion.getAttribute("login") == null || sesion.getAttribute("login").equals(
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${proveedorPorNIT}" var="proveedorPorNIT">
+				<c:forEach items="${proveedoresPorNit}" var="proveedorPorNIT">
 					<tr>
 						<td>${proveedorPorNIT.id}</td>
 						<td>${proveedorPorNIT.name}</td>
