@@ -275,4 +275,15 @@ public class controller {
 		}
 		return "redirect:/listar-proveedores";
 	}
+	
+	@PostMapping("/eliminar-proveedor")
+	public String eliminarProveedor(@RequestParam Integer id, RedirectAttributes redirectAttributes) {
+		ProveedorDao Dao = new ProveedorDao();
+		if(Dao.eliminarProveedor(id)) {
+			redirectAttributes.addFlashAttribute("msg", "Proveedor eliminado con exito");
+		}else {
+			redirectAttributes.addFlashAttribute("msg", "No se ha podido eliminar el Proveedor");
+		}
+		return "redirect:/listar-proveedores";
+	}
 }
