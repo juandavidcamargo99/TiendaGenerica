@@ -16,6 +16,7 @@
 <title>Listar clientes</title>
 </head>
 <body>
+	<jsp:include page="menuPrincipal.jsp" />
 	<h2>Listar clientes</h2>
 	<table id="tabla">
 		<thead>

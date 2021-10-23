@@ -16,6 +16,7 @@
 <title>Listar usuarios</title>
 </head>
 <body>
+	<jsp:include page="menuPrincipal.jsp" />
 	<h1>Usuarios</h1>
 	<h2>Lista de usuarios</h2>
 	<h3>${msg}</h3>

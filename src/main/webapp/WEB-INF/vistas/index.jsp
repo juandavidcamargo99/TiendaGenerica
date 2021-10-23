@@ -8,6 +8,6 @@
 </head>
 <body>
 	<h1>Bienvenidos a la tienda generica</h1>
-	<a href="/login">Login</a>
+	<jsp:include page="menuPrincipal.jsp" />
 </body>
 </html>

@@ -16,6 +16,7 @@
 <title>Crear Clientes</title>
 </head>
 <body>
+	<jsp:include page="menuPrincipal.jsp" />
 	<h2>Crear Clientes</h2>
 
 	<form method="POST" action="/crear-cliente">
