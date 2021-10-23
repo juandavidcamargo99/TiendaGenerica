@@ -250,4 +250,29 @@ public class controller {
 		model.addAttribute("proveedores", Dao.listaDeProveedores());
 		return "ListarProveedores";
 	}
+	
+	@GetMapping("/crear-proveedor")
+	public String crearProveedor(Model model) {
+		return "crearProveedor";
+	}
+
+	@PostMapping("/crear-proveedor")
+	public String crearProveedorPost(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+		String name = request.getParameter("name");
+		String address = request.getParameter("address");
+		String cardId = request.getParameter("cardId");
+		ProveedorDao Dao = new ProveedorDao();
+		// buscar proveedor por accountName
+		if (Dao.buscarPorNIT(cardId).isEmpty()) {
+			// crear proveedor si no existe
+			if (Dao.crearProveedor(name, address, cardId)) {
+				redirectAttributes.addFlashAttribute("msg", "Proveedor creado con exito");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "Proveedor creado con exito");
+			}
+		} else {
+			redirectAttributes.addFlashAttribute("msg", "El Proveedor ya se encuentra registrado");
+		}
+		return "redirect:/listar-proveedores";
+	}
 }
