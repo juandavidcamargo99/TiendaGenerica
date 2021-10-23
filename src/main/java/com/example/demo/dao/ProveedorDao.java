@@ -48,6 +48,38 @@ public class ProveedorDao {
 	}
 	
 	/**
+	 * retorna el proveedor buscado por id
+	 */
+	public ArrayList<Proveedor> buscarProvedorPorId(Integer id) {
+		ArrayList<Proveedor> proveedor = new ArrayList<Proveedor>();
+		conexion = Conexion.conectar();
+		if (Conexion.AutoCommit(conexion)) {
+			try {
+				PreparedStatement consulta = conexion.prepareStatement("SELECT * FROM proveedor WHERE id = ?");
+				consulta.setInt(1, id);
+				ResultSet res = consulta.executeQuery();
+				while (res.next()) {
+					Proveedor persona = new Proveedor();
+					persona.setId(res.getInt("id"));
+					persona.setName(res.getString("name"));
+					persona.setAddress(res.getString("address"));
+					persona.setCardId(res.getString("cardId"));
+					proveedor.add(persona);
+				}
+				res.close();
+				consulta.close();
+				Conexion.commit(conexion);
+			} catch (Exception e) {
+				System.out.print(e.getMessage());
+				Conexion.rollback(conexion);
+			} finally {
+				Conexion.cerrar(conexion);
+			}
+		}
+		return proveedor;
+	}
+	
+	/**
 	 * Retorna el proveedor por NIT
 	 */
 	public ArrayList<Proveedor> buscarPorNIT(String cardId) {
@@ -106,6 +138,46 @@ public class ProveedorDao {
 		}
 		return false;
 
+	}
+	
+	/**
+	 * Permite actualizar un proveedor
+	 */
+	public Boolean actualizarProveedor(Integer id, String name, String address, String cardId) {
+		Boolean result = false;
+		String sql = "";
+		conexion = Conexion.conectar();
+		if (Conexion.AutoCommit(conexion)) {
+			try {
+				if (name.isEmpty()) {
+					sql = "UPDATE proveedor SET name = ?, address = ?, cardId = ? WHERE id = ?";
+					PreparedStatement consulta = conexion.prepareStatement(sql);
+					consulta.setString(1, name);
+					consulta.setString(2, address);
+					consulta.setString(3, cardId);
+					consulta.setInt(4, id);
+					consulta.executeUpdate();
+					consulta.close();
+				} else {
+					sql = "UPDATE proveedor SET name = ?, address = ?, cardId = ? WHERE id = ?";
+					PreparedStatement consulta = conexion.prepareStatement(sql);
+					consulta.setString(1, name);
+					consulta.setString(2, address);
+					consulta.setString(3, cardId);
+					consulta.setInt(4, id);
+					consulta.executeUpdate();
+					consulta.close();
+				}
+				result = true;
+				Conexion.commit(conexion);
+			} catch (Exception e) {
+				System.out.print(e.getMessage());
+				Conexion.rollback(conexion);
+			} finally {
+				Conexion.cerrar(conexion);
+			}
+		}
+		return result;
 	}
 	
 	/**
