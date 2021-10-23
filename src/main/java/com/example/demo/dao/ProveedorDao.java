@@ -107,5 +107,32 @@ public class ProveedorDao {
 		return false;
 
 	}
+	
+	/**
+	 * Permite eliminar un proveedor por id
+	 */
+	public Boolean eliminarProveedor(Integer id) {
+		Boolean result = false;
+		String sql = "";
+		conexion = Conexion.conectar();
+		if (Conexion.AutoCommit(conexion)) {
+			try {
+				sql = "DELETE FROM proveedor WHERE id = ?";
+				PreparedStatement consulta = conexion.prepareStatement(sql);
+				consulta.setInt(1, id);
+				consulta.executeUpdate();
+				consulta.close();
+				result = true;
+				Conexion.commit(conexion);
+			} catch (Exception e) {
+				System.out.print(e.getMessage());
+				Conexion.rollback(conexion);
+			} finally {
+				Conexion.cerrar(conexion);
+			}
+		}
+		return result;
+
+	}
 
 }
