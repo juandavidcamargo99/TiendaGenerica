@@ -171,4 +171,30 @@ public class ClienteDao {
 		return result;
 	}
 
+	/**
+	 * Permite eliminar un usuario por id
+	 */
+	public Boolean eliminarCliente(Integer id) {
+		Boolean result = false;
+		String sql = "";
+		conexion = Conexion.conectar();
+		if (Conexion.AutoCommit(conexion)) {
+			try {
+				sql = "DELETE FROM cliente WHERE id = ?";
+				PreparedStatement consulta = conexion.prepareStatement(sql);
+				consulta.setInt(1, id);
+				consulta.executeUpdate();
+				consulta.close();
+				result = true;
+				Conexion.commit(conexion);
+			} catch (Exception e) {
+				System.out.print(e.getMessage());
+				Conexion.rollback(conexion);
+			} finally {
+				Conexion.cerrar(conexion);
+			}
+		}
+		return result; 
+
+	}
 }
